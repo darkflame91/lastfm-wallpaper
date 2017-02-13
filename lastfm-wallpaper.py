@@ -2,13 +2,16 @@ from PIL import Image, ImageFilter, ImageEnhance, ImageFont, ImageDraw
 import requests
 import json
 import time
-import StringIO
-import urllib
+import subprocess
+import os
+import platform
+
 
 USERNAME = 'darkflame91'
 
 timer = 10
 size = 200
+flipper = "2.jpg"
 
 def getFont(txt):
 	fontsize = 1
@@ -20,10 +23,6 @@ def getFont(txt):
 	fontsize -= 1
 	font = ImageFont.truetype(fontname, fontsize)
 	return font
-
-cover = Image.new('RGB',(size,size),(0,0,0))
-cover = Image.open("Master_Puppets.jpg")
-
 
 
 
@@ -95,4 +94,18 @@ for txt in [track,artist,album]:
 	draw.text((1700, lastsize+8), txt, font=font)
 	lastsize += font.getsize(txt)[1]
 
-black.show()
+#black.show()
+if flipper == "1.jpg":
+	flipper = "2.jpg"
+else:
+	flipper = "1.jpg"
+black.save(flipper)
+
+if platform.system() == "Linux":
+	wallcommand = "gsettings set org.gnome.desktop.background draw-background false && gsettings set org.gnome.desktop.background picture-uri file://"+os.environ.get('PWD')+"/"+flipper+" && gsettings set org.gnome.desktop.background draw-background true"
+	wallcommand = "gsettings set org.gnome.desktop.background picture-uri file://"+os.environ.get('PWD')+"/"+flipper
+	print wallcommand.split()
+else:
+	wallcommand = 'osascript -e \'tell application "Finder" to set desktop picture to POSIX file "'+os.environ.get('PWD')+"/"+flipper+' "\''
+setwallout = subprocess.check_output(wallcommand.split())
+print setwallout
