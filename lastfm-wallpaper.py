@@ -4,6 +4,7 @@ import time
 import subprocess
 import os
 import platform
+import sqlite3
 try:
 	from PIL import Image, ImageFilter, ImageEnhance, ImageFont, ImageDraw
 except:
@@ -45,6 +46,7 @@ try:
 	pres = json.loads(res.text)
 except Exception as err:
 	print err
+	sys.exit()
 	time.sleep(timer)
 
 if pres['recenttracks']['track'][0]['artist']['#text'] != '':
@@ -108,13 +110,20 @@ if flipper == "1.jpg":
 	flipper = "2.jpg"
 else:
 	flipper = "1.jpg"
+try:
+	os.remove(flipper)
+except:
+	print "File's ah'ready gon sah!"
 black.save(flipper)
 
 if platform.system() == "Linux":
-	wallcommand = "gsettings set org.gnome.desktop.background draw-background false && gsettings set org.gnome.desktop.background picture-uri file://"+os.environ.get('PWD')+"/"+flipper+" && gsettings set org.gnome.desktop.background draw-background true"
+	wallcommand = "gsettings set org.gnome.desktop.background draw-background false"
+	setwallout = subprocess.check_output(wallcommand.split())
 	wallcommand = "gsettings set org.gnome.desktop.background picture-uri file://"+os.environ.get('PWD')+"/"+flipper
-	print wallcommand.split()
+	setwallout = subprocess.check_output(wallcommand.split())
+	wallcommand = "gsettings set org.gnome.desktop.background draw-background true"
+	setwallout = subprocess.check_output(wallcommand.split())
+	print setwallout
 elif platform.system() == "Darwin":
-	wallcommand = 'osascript -e \'tell application "Finder" to set desktop picture to POSIX file "'+os.environ.get('PWD')+"/"+flipper+' "\''
-setwallout = subprocess.check_output(wallcommand.split())
-print setwallout
+	setwallout = subprocess.check_output(["sh","apple.sh",os.environ.get('PWD')+"/",flipper])
+	print setwallout
