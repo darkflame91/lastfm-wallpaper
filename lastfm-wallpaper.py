@@ -1,10 +1,19 @@
-from PIL import Image, ImageFilter, ImageEnhance, ImageFont, ImageDraw
-import requests
+import sys
 import json
 import time
 import subprocess
 import os
 import platform
+try:
+	from PIL import Image, ImageFilter, ImageEnhance, ImageFont, ImageDraw
+except:
+	print "Get the python Pillow library!"
+	sys.exit()
+try:
+	import requests
+except:
+	print "Get the python Requests library!"
+	sys.exit()
 
 
 USERNAME = 'darkflame91'
@@ -105,7 +114,7 @@ if platform.system() == "Linux":
 	wallcommand = "gsettings set org.gnome.desktop.background draw-background false && gsettings set org.gnome.desktop.background picture-uri file://"+os.environ.get('PWD')+"/"+flipper+" && gsettings set org.gnome.desktop.background draw-background true"
 	wallcommand = "gsettings set org.gnome.desktop.background picture-uri file://"+os.environ.get('PWD')+"/"+flipper
 	print wallcommand.split()
-else:
+elif platform.system() == "Darwin":
 	wallcommand = 'osascript -e \'tell application "Finder" to set desktop picture to POSIX file "'+os.environ.get('PWD')+"/"+flipper+' "\''
 setwallout = subprocess.check_output(wallcommand.split())
 print setwallout
