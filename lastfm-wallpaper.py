@@ -5,8 +5,11 @@ import subprocess
 import os
 import platform
 import signal
-import Tkinter
-
+try:
+	import Tkinter
+except:
+	print "Get the python Tkinter library!"
+	sys.exit()
 try:
 	from PIL import Image, ImageFilter, ImageEnhance, ImageFont, ImageDraw
 except:
@@ -111,11 +114,11 @@ while True:
 	flipper = buildImage(cover,flipper)
 	signal.signal(signal.SIGINT, signal_handler)
 	if platform.system() == "Linux":
-		wallcommand = "gsettings set org.gnome.desktop.background draw-background false"
-		setwallout = subprocess.check_output(wallcommand.split())
 		wallcommand = "gsettings set org.gnome.desktop.background picture-uri file://"+os.environ.get('PWD')+"/"+flipper
+		print wallcommand
 		setwallout = subprocess.check_output(wallcommand.split())
-		wallcommand = "gsettings set org.gnome.desktop.background draw-background true"
+		wallcommand = 'gsettings set org.gnome.desktop.background picture-options "spanned"'
+		print wallcommand
 		setwallout = subprocess.check_output(wallcommand.split())
 		print setwallout
 	elif platform.system() == "Darwin":
