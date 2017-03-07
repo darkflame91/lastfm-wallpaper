@@ -5,6 +5,8 @@ I use a monitor with a transparent terminal, and the intention is to have the sc
 
 Currently, it shows the current or last playing track of 3 different people along the right edge of the screen.
 
+![Screenshot](https://raw.githubusercontent.com/darkflame91/lastfm-wallpaper/master/screenshot.png)
+
 ## Platforms
 Currently working on this for CentOS 7 and MacOS Sierra. All testing, unless otherwise specified will be on these platforms.
 * **Linux:** Will *most likely* work on Ubuntu, Mint, Fedora, RHEL, and any other OS using GNOME 3 or derivatives. This hasn't been tested though.
